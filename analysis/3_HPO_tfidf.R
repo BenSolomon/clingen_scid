@@ -49,12 +49,10 @@ plotHPOheatmap <- function(df, x_var, filtering_var, filter_selections, n_hpo = 
 ###############################################################################!
 # Load ####
 ###############################################################################!
-base_dir <- c("/labs/khatrilab/solomonb/gcep")
-
-proband_path <- file.path(base_dir, "data/clingen/api/scid_hpo_funSimAvg.h5")
+proband_path <- here("data/clingen/api/scid_hpo_funSimAvg.h5")
 df_scid_hpo <- data.frame(h5read(proband_path, "/proband_hpo")) 
-df_clingen_hpo <- vroom::vroom(file.path(base_dir, "data/clingen_scrape/clingen_proband_hpo_terms.csv.gz"))
-df_key <- read_csv(file.path(base_dir, "data/clingen_key.csv"))
+df_clingen_hpo <- vroom::vroom(here("data/clingen/scrape/clingen_proband_hpo_terms.csv.gz"))
+df_key <- read_csv(here("data/clingen_key.csv"))
 
 ###############################################################################!
 # Calculate TF-IDF ####
