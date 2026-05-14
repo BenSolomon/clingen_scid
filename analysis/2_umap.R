@@ -41,21 +41,7 @@ facetOverlayPlot <- function(df, facet_var){
 
 # Plot that takes a list of genes and highlights all probands with genes 
 # from that list as one group and all other probands as part of a null group
-# selectGenePlot <- function(df, genes, gene_label, null_label, legend_label = NULL){
-#   df %>% 
-#     mutate(table1 = ifelse(Gene %in% genes, gene_label, null_label)) %>% 
-#     arrange(desc(table1)) %>% 
-#     ggplot(aes_string(x = "V1", y = "V2", fill = "table1")) +
-#     ggrastr::geom_point_rast(size = 2, alpha = 1, shape = 21) +
-#     theme_bw() +
-#     guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) +
-#     labs(x = "UMAP1", y = "UMAP2", fill = legend_label) +
-#     scale_fill_viridis_d(begin = 0.1, end = 0.95, direction = -1)
-# }
 selectGenePlot <- function(df, genes, label){
-  # df %>% 
-  #   mutate(table1 = ifelse(Gene %in% genes, gene_label, null_label)) %>% 
-  #   arrange(desc(table1)) %>% 
   ggplot(df, aes_string(x = "V1", y = "V2")) +
     ggrastr::geom_point_rast(size = 2, color = "grey") +
     ggrastr::geom_point_rast(
@@ -103,6 +89,12 @@ readUMAP <- function(path, cdwgs){
 # Load data ####
 ###############################################################################!
 
+keep_cdwg <- c("Cardiovascular", "Hemostasis/Thrombosis", "Hereditary Cancer",
+               "Immunology", "Inborn Errors of Metabolism",
+               "Neurodevelopmental Disorders", "Neurological Disorders",
+               "Pulmonary")
+
+
 h5_path_allClingen <- here("data/clingen/scrape/clingen_scrape_hpo.h5")
 mtx_proband_allClingen <- h5read(h5_path_allClingen, "/proband_distance")
 df_proband_allClingen <- data.frame(h5read(h5_path_allClingen, "/proband_metadata")) %>% 
@@ -137,10 +129,6 @@ table1_genes <- unlist(table1_genes)
 # Plots ####
 ###############################################################################!
 
-keep_cdwg <- c("Cardiovascular", "Hemostasis/Thrombosis", "Hereditary Cancer",
-               "Immunology", "Inborn Errors of Metabolism",
-               "Neurodevelopmental Disorders", "Neurological Disorders",
-               "Pulmonary")
 
 plt_all <- df_umap_allClingen %>% 
   mutate(CDWG = stringr::str_wrap(CDWG, width = 30)) %>% 

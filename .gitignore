@@ -5,3 +5,5 @@
 *.log
 *.sh
 *.ipynb
+README_files
+.Rprofile
